@@ -1,0 +1,124 @@
+trigger: none
+
+# CI-Builds aktivieren
+# trigger:
+#   branches:
+#     include:
+#       - main
+#   paths:
+#     exclude:
+#       - .github/**
+#       - .pipelines/**
+#       - .vscode/**
+#       - assets/**
+#       - chats/**
+#       - README.md
+
+pr: none
+
+# Pull Request Builds aktivieren
+# pr:
+#   branches:
+#     include:
+#       - main
+#   paths:
+#     exclude:
+#       - .github/**
+#       - .pipelines/**
+#       - .vscode/**
+#       - assets/**
+#       - chats/**
+#       - README.md
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: Build
+    displayName: Build
+    jobs:
+      - job: build
+        steps:
+          - task: NodeTool@0
+            displayName: Install Node 24.x
+            inputs:
+              versionSpec: 24.x
+
+          - bash: |
+              npm install
+            displayName: Install dependencies
+          
+          - bash: |
+              npm run build
+            displayName: Build static web app
+
+          - bash: |
+              npm run test:run
+            displayName: Run tests
+
+          - task: PublishTestResults@2
+            displayName: Publish test results
+            inputs:
+              testResultsFormat: JUnit
+              testResultsFiles: test-results/junit.xml
+
+          - publish: dist
+            artifact: swa
+            displayName: Publish static web app artifact
+  
+  - stage: IaC
+    displayName: IaC Deployment
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - job: iac_deploy
+        steps:
+          - task: AzureCLI@2
+            displayName: Run IaC Deployment
+            name: iac
+            inputs:
+              azureSubscription: '<your-service-connection>'
+              scriptType: pscore
+              scriptLocation: inlineScript
+              useGlobalConfig: false
+              inlineScript: |
+                az --version
+                az deployment sub create --name swa --location westeurope --template-file infra/main.bicep
+                
+                # Create variables for later deployment
+                $staticWebAppName = (& az deployment sub show -n swa --query properties.outputs.staticWebAppName.value -o tsv)
+                $endpoint = (& az deployment sub show -n swa --query properties.outputs.endpoint.value -o tsv)
+                $deployKey = (& az staticwebapp secrets list -n $staticWebAppName --query properties.apiKey -o tsv)
+
+                Write-Host "##vso[task.setvariable variable=webAppName;isOutput=true;]$staticWebAppName"
+                Write-Host "##vso[task.setvariable variable=endpoint;isOutput=true;]https://$endpoint"
+                Write-Host "##vso[task.setvariable variable=deployKey;isOutput=true;isSecret=true;]$deployKey"
+
+  - stage: Deploy
+    displayName: Deploy
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    jobs:
+      - deployment: app_deploy
+        environment: demo
+        variables:
+          webAppName: $[ stageDependencies.IaC.iac_deploy.outputs['iac.webAppName'] ]
+          endpoint: $[ stageDependencies.IaC.iac_deploy.outputs['iac.endpoint'] ]
+          deployKey: $[ stageDependencies.IaC.iac_deploy.outputs['iac.deployKey'] ]
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureStaticWebApp@0
+                  displayName: Deploy web app to Azure
+                  inputs:
+                    workingDirectory: $(Pipeline.Workspace)
+                    skip_app_build: true
+                    skip_api_build: true
+                    app_location: swa
+                    output_location: ''
+                    api_location: ''
+                    azure_static_web_apps_api_token: $(deployKey)
+
+                - bash: |
+                    echo "Deployment for static web app $(webAppName) succeeded."
+                    echo "You can access the app at $(endpoint)"
+                  displayName: Show app information
