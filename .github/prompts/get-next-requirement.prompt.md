@@ -5,6 +5,6 @@ agent: agent
 model: Claude Sonnet 4.5 (copilot)
 tools: ['microsoft/azure-devops-mcp/*']
 ---
-Welches ist das nächste Requirement in unserem Azure DevOps Backlog?
+What is the next requirement in our Azure DevOps backlog?
 
-Berücksichtige die Position der Anforderungen im Backlog und wähle ausschließlich Anforderungen im Zustand "Approved" aus. Gibt es keine solche Anforderung, gib bitte eine entsprechende Rückmeldung.
+Consider the position of the requirements in the backlog and select only requirements in the "Approved" state. If there is no such requirement, please provide appropriate feedback.

@@ -1,6 +1,6 @@
-User: Ich möchte eine Webseite mit einer Bildergalerie erstellen. Die Seite soll als statische Webseite mit HTML/CSS, React und TypeScript gebaut sein. Die Galerie soll in einem Raster mit drei Spalten angezeigt werden und ein Feld mit einem Plus-Zeichen enthalten, über das neue Bilder hinzugefügt werden können. Die Bilder sollen bei Mouse Over leicht wackeln und beim Rechtsklick ein kleines Kontextmenü anzeigen, dass es erlaubt, das Bild aus der Galerie zu entfernen. Alle Bilder sollen aus einem öffentlichen Service für zufällige Bilder stammen, kein Upload oder ähnliches soll genutzt werden. Bitte hilf mir, sinnvolle Requirements dafür zu erstellen, die einen iterativen Entwicklungsprozess abbilden.
+User: I want to create a website with an image gallery. The site should be built as a static website using HTML/CSS, React and TypeScript. The gallery should be displayed in a grid with three columns and contain a field with a plus sign that allows adding new images. The images should slightly wobble on mouse over and show a small context menu on right-click that allows removing the image from the gallery. All images should come from a public service for random images, no upload or similar functionality should be used. Please help me create meaningful requirements that reflect an iterative development process.
 
-GitHub Copilot: Ich helfe dir gerne, einen Plan für die Requirements-Erstellung zu erstellen. Lass mich zuerst den aktuellen Workspace-Kontext analysieren. 
+GitHub Copilot: I'm happy to help you create a plan for the requirements. Let me first analyze the current workspace context. 
 
 Read [](file:///d%3A/temp/utm/Demo.md)
 
@@ -24,144 +24,144 @@ Using "Fetch Web Page"
 
 Fetched 2 resources
 
-## Plan: Iterative Requirements für React-TypeScript Bildergalerie
+## Plan: Iterative Requirements for React-TypeScript Image Gallery
 
-Eine Bildergalerie-Webseite mit React/TypeScript, die in mehreren Iterationen entwickelt wird. Jede Iteration baut auf der vorherigen auf und liefert inkrementellen Mehrwert mit klaren Akzeptanzkriterien.
-
-### Steps
-
-1. **Iteration 1: Basis-Setup & statisches Grid** - Projekt-Setup mit Vite/React/TypeScript, statisches 3-Spalten CSS Grid mit Platzhalterbildern von Lorem Picsum, grundlegendes Styling
-2. **Iteration 2: Dynamisches Hinzufügen** - Plus-Button implementieren, Click-Handler zum Hinzufügen neuer Bilder aus Lorem Picsum API, State-Management mit useState für Bildliste
-3. **Iteration 3: Hover-Animation** - CSS @keyframes Wackel-Animation erstellen, auf Mouse Over triggern, smooth transitions für bessere UX
-4. **Iteration 4: Kontextmenü & Löschen** - onContextMenu Event Handler, Custom Context Menu Komponente, Löschen-Funktion für Bilder aus dem State
-5. **Iteration 5: Polish & Responsive** - Responsive Grid für Mobile, Accessibility (Keyboard-Navigation), Edge Cases (leere Galerie, Ladeanimationen)
-
-### Further Considerations
-
-1. **State-Persistence**: Sollen die Bilder im LocalStorage gespeichert werden, damit sie nach Reload erhalten bleiben? Oder jedes Mal neu starten?
-2. **API-Service**: Lorem Picsum (kein API-Key) vs. Unsplash API (höhere Qualität, aber Registrierung nötig)? Für eine Demo ist Lorem Picsum empfohlen.
-3. **Build-Tool**: Vite (modern, schnell) oder Create React App (bewährt, aber langsamer)? Vite wird für neue Projekte empfohlen.
-
-User: Bilder werden nicht persistiert, da es sich nur um eine Demo handel. Deswegen nehmen wir die Bilder auch von Lorem Picsum. Als Build-Tool verwenden wir Vite.
-
-GitHub Copilot: ## Plan: Iterative Requirements für React-TypeScript Bildergalerie
-
-Eine Bildergalerie-Webseite mit React/TypeScript und Vite, die in fünf Iterationen entwickelt wird. Bilder werden nicht persistiert (reine Demo), Lorem Picsum liefert zufällige Bilder ohne API-Key.
+An image gallery website built with React/TypeScript, developed in multiple iterations. Each iteration builds on the previous one and delivers incremental value with clear acceptance criteria.
 
 ### Steps
 
-1. **Iteration 1: Vite-Setup & statisches Grid** - Vite-Projekt mit React-TypeScript Template erstellen, CSS Grid Layout mit `grid-template-columns: repeat(3, 1fr)`, 6-8 initiale Platzhalterbilder von Lorem Picsum (z.B. `https://picsum.photos/300/300?random=1`)
-2. **Iteration 2: Plus-Button & Bilder hinzufügen** - Plus-Kachel als Grid-Item rendern, onClick Handler fügt neue Lorem Picsum URL zum State hinzu, eindeutige IDs/Seeds für Bilder generieren
-3. **Iteration 3: Wackel-Animation bei Hover** - CSS @keyframes mit `rotate(-2deg)` bis `rotate(2deg)`, Animation auf `.image-card:hover` triggern, 0.3s Duration für smooth effect
-4. **Iteration 4: Rechtsklick-Kontextmenü** - onContextMenu Event mit `preventDefault()`, Context Menu Component an Cursor-Position (`pageX/pageY`), "Entfernen"-Option filtert Bild aus State
-5. **Iteration 5: Responsive & Polish** - Media Queries für 2 Spalten (Tablet) und 1 Spalte (Mobile), Hover-Feedback für Plus-Button, Close-on-outside-click für Kontextmenü
+1. **Iteration 1: Basic Setup & Static Grid** - Project setup with Vite/React/TypeScript, static 3-column CSS Grid with placeholder images from Lorem Picsum, basic styling
+2. **Iteration 2: Dynamic Adding** - Implement plus button, click handler to add new images from Lorem Picsum API, state management with useState for image list
+3. **Iteration 3: Hover Animation** - Create CSS @keyframes wobble animation, trigger on mouse over, smooth transitions for better UX
+4. **Iteration 4: Context Menu & Deletion** - onContextMenu event handler, custom context menu component, delete function for images from state
+5. **Iteration 5: Polish & Responsive** - Responsive grid for mobile, accessibility (keyboard navigation), edge cases (empty gallery, loading animations)
 
 ### Further Considerations
 
-1. **Initiale Bildanzahl**: Soll die Galerie leer starten oder mit z.B. 6 Beispielbildern vorausgefüllt sein?
-2. **Bild-Dimensionen**: Quadratische Bilder (300x300) oder Rechteckig? Lorem Picsum unterstützt beide Formate.
-3. **Animation-Details**: Nur Rotation-Wackeln oder zusätzlich leichtes Scale (`transform: scale(1.05)`)?
+1. **State Persistence**: Should images be stored in LocalStorage so they persist after reload? Or start fresh each time?
+2. **API Service**: Lorem Picsum (no API key) vs. Unsplash API (higher quality, but registration required)? For a demo, Lorem Picsum is recommended.
+3. **Build Tool**: Vite (modern, fast) or Create React App (proven, but slower)? Vite is recommended for new projects.
 
-User: Initial sollen fünf Bilder vorhanden sein und die Bilder sollen immer quadratisch sein. Zusätzlich sollten die Bilder wie Polaroid-Fotos gestaltet sein (schmaler weißer Rand links, oben und rechts, breiterer weißer Rand unten, dünner Rahmen und ggf. Schattierung). Die Animation soll nur rotieren (wobble).
+User: Images are not persisted since this is just a demo. That's why we'll also use images from Lorem Picsum. As a build tool, we'll use Vite.
 
-GitHub Copilot: ## Plan: Iterative Requirements für React-TypeScript Bildergalerie
+GitHub Copilot: ## Plan: Iterative Requirements for React-TypeScript Image Gallery
 
-Eine Bildergalerie-Webseite mit React/TypeScript und Vite im Polaroid-Stil. Initial 5 quadratische Bilder von Lorem Picsum, keine Persistierung (Demo-Zweck).
+An image gallery website built with React/TypeScript and Vite, developed in five iterations. Images are not persisted (pure demo), Lorem Picsum provides random images without an API key.
 
 ### Steps
 
-1. **Iteration 1: Vite-Setup & Polaroid-Grid** - Vite-Projekt mit React-TypeScript Template (`npm create vite@latest`), CSS Grid mit 3 Spalten, 5 initiale Bilder von Lorem Picsum (300x300), Polaroid-Styling: padding (10px top/left/right, 40px bottom), border (1px solid #ddd), box-shadow für Tiefe
-2. **Iteration 2: Plus-Button & Bilder hinzufügen** - Plus-Kachel als Polaroid-Card mit zentriertem +-Symbol, onClick generiert neue Lorem Picsum URL mit eindeutigem Random-Seed/Timestamp, State-Update fügt Bild zur Galerie hinzu
-3. **Iteration 3: Wobble-Animation bei Hover** - CSS @keyframes `wobble` mit `rotate(-3deg)` → `rotate(3deg)` → `rotate(0deg)`, auf `.polaroid-card:hover` triggern, 0.4s ease-in-out, transform-origin für natürliche Rotation
-4. **Iteration 4: Rechtsklick-Kontextmenü** - onContextMenu auf Polaroid-Cards, preventDefault() für natives Menü, custom Context Menu Component positioniert bei Cursor, "Bild entfernen" filtert Item aus State-Array
-5. **Iteration 5: Responsive & UX-Polish** - Media Queries (2 Spalten ≤768px, 1 Spalte ≤480px), Hover-State für Plus-Button (opacity/scale), Click-outside-Handler schließt Kontextmenü, ESC-Key schließt Menü
+1. **Iteration 1: Vite Setup & Static Grid** - Create Vite project with React-TypeScript template, CSS Grid layout with `grid-template-columns: repeat(3, 1fr)`, 6-8 initial placeholder images from Lorem Picsum (e.g., `https://picsum.photos/300/300?random=1`)
+2. **Iteration 2: Plus Button & Add Images** - Render plus tile as grid item, onClick handler adds new Lorem Picsum URL to state, generate unique IDs/seeds for images
+3. **Iteration 3: Wobble Animation on Hover** - CSS @keyframes with `rotate(-2deg)` to `rotate(2deg)`, trigger animation on `.image-card:hover`, 0.3s duration for smooth effect
+4. **Iteration 4: Right-Click Context Menu** - onContextMenu event with `preventDefault()`, Context Menu component at cursor position (`pageX/pageY`), "Remove" option filters image from state
+5. **Iteration 5: Responsive & Polish** - Media queries for 2 columns (tablet) and 1 column (mobile), hover feedback for plus button, close-on-outside-click for context menu
 
 ### Further Considerations
 
-1. **Polaroid-Ästhetik**: Soll jedes Bild eine leichte zufällige Rotation haben (±2-5°) für realistischeren Polaroid-Look im Ruhezustand?
-2. **Plus-Button Position**: Immer am Ende der Galerie oder fixiert an einer bestimmten Position (z.B. oben rechts)?
-3. **Bildgröße**: 300x300px ausreichend oder größere Auflösung für moderne Displays (z.B. 400x400)?
+1. **Initial Image Count**: Should the gallery start empty or be pre-filled with e.g. 6 sample images?
+2. **Image Dimensions**: Square images (300x300) or rectangular? Lorem Picsum supports both formats.
+3. **Animation Details**: Only rotation wobble or additionally slight scale (`transform: scale(1.05)`)?
 
-User: Die Idee mit der Polaroid-Ästhetik finde ich gut, bitte so machen! Der Plus-Button soll immer am Ende der Galerie stehen und dieselbe Größe wie ein Polaroid aber einen gestrichelten Rahmen haben. Die Größe 300x300px ist vollkommen ausreichend.
+User: Initially there should be five images and the images should always be square. Additionally, the images should be styled like Polaroid photos (narrow white border on left, top and right, wider white border on bottom, thin frame and optional shading). The animation should only rotate (wobble).
 
-GitHub Copilot: ## Plan: Iterative Requirements für React-TypeScript Bildergalerie
+GitHub Copilot: ## Plan: Iterative Requirements for React-TypeScript Image Gallery
 
-Eine Bildergalerie-Webseite mit React/TypeScript und Vite im Polaroid-Stil. Initial 5 quadratische Bilder (300x300px) von Lorem Picsum, keine Persistierung.
+An image gallery website built with React/TypeScript and Vite in Polaroid style. Initially 5 square images from Lorem Picsum, no persistence (demo purpose).
 
 ### Steps
 
-1. **Iteration 1: Vite-Setup & Polaroid-Grid** - Vite-Projekt mit React-TypeScript Template, CSS Grid mit `repeat(3, 1fr)`, 5 initiale Bilder von Lorem Picsum (`https://picsum.photos/300/300?random={seed}`), Polaroid-Styling: padding (12px top/left/right, 45px bottom), border (1px solid #e0e0e0), box-shadow (`0 4px 8px rgba(0,0,0,0.1)`), zufällige Rotation pro Bild (±2-5° via inline style oder CSS variable)
-2. **Iteration 2: Plus-Button am Galerie-Ende** - Plus-Kachel als letztes Grid-Item, gleiche Dimensionen wie Polaroid-Card, gestrichelter Rahmen (`border: 2px dashed #ccc`), zentriertes +-Symbol (Font-Size 48px), onClick fügt neues Bild mit eindeutigem Random-Seed zum State hinzu
-3. **Iteration 3: Wobble-Animation bei Hover** - CSS @keyframes mit `rotate()` relativ zur initialen Rotation, Animation nur auf Polaroid-Bildern (nicht auf Plus-Button), 0.4s ease-in-out, sanftes Wackeln ±3° von Ausgangsrotation
-4. **Iteration 4: Rechtsklick-Kontextmenü** - onContextMenu nur auf Bild-Cards (nicht auf Plus-Button), `e.preventDefault()` blockiert natives Menü, Context Menu Component an `(e.pageX, e.pageY)` positioniert, "Bild entfernen" Option filtert Bild-ID aus State
-5. **Iteration 5: Responsive & UX-Details** - Media Queries (≤768px: 2 Spalten, ≤480px: 1 Spalte), Plus-Button Hover-Effekt (opacity: 0.7, leichtes scale), Click-outside schließt Kontextmenü, ESC-Key schließt Menü, Cursor-Pointer auf interaktiven Elementen
+1. **Iteration 1: Vite Setup & Polaroid Grid** - Vite project with React-TypeScript template (`npm create vite@latest`), CSS Grid with 3 columns, 5 initial images from Lorem Picsum (300x300), Polaroid styling: padding (10px top/left/right, 40px bottom), border (1px solid #ddd), box-shadow for depth
+2. **Iteration 2: Plus Button & Add Images** - Plus tile as Polaroid card with centered + symbol, onClick generates new Lorem Picsum URL with unique random seed/timestamp, state update adds image to gallery
+3. **Iteration 3: Wobble Animation on Hover** - CSS @keyframes `wobble` with `rotate(-3deg)` → `rotate(3deg)` → `rotate(0deg)`, trigger on `.polaroid-card:hover`, 0.4s ease-in-out, transform-origin for natural rotation
+4. **Iteration 4: Right-Click Context Menu** - onContextMenu on Polaroid cards, preventDefault() for native menu, custom context menu component positioned at cursor, "Remove image" filters item from state array
+5. **Iteration 5: Responsive & UX Polish** - Media queries (2 columns ≤768px, 1 column ≤480px), hover state for plus button (opacity/scale), click-outside handler closes context menu, ESC key closes menu
 
 ### Further Considerations
 
-1. **Initiale Rotationen**: Sollen beim Neuladen zufällig neu generiert werden oder fest pro Bild-Seed? Zufällig bei jedem Mount empfohlen für natürlichen Look.
-2. **TypeScript Interfaces**: `interface PolaroidImage { id: string; seed: number; rotation: number }` für typsicheres State-Management?
-3. **Accessibility**: Aria-Labels für Plus-Button ("Neues Bild hinzufügen") und Kontextmenü-Items?
+1. **Polaroid Aesthetics**: Should each image have a slight random rotation (±2-5°) for a more realistic Polaroid look at rest?
+2. **Plus Button Position**: Always at the end of the gallery or fixed at a specific position (e.g., top right)?
+3. **Image Size**: 300x300px sufficient or larger resolution for modern displays (e.g., 400x400)?
 
-User: Die Rotation ist beim neu Laden immer zufällig, das ist okay. Die Interface-Definition möchte ich in den Requirements nicht spezifizieren, da sie aus Sicht des Benutzers definiert sein und keine technischen Details behinhalten sollen. Accessibility wäre gut!
+User: I like the idea with the Polaroid aesthetics, please do it that way! The plus button should always be at the end of the gallery and have the same size as a Polaroid but with a dashed border. The size 300x300px is perfectly sufficient.
 
-GitHub Copilot: ## Plan: Iterative Requirements für React-TypeScript Bildergalerie
+GitHub Copilot: ## Plan: Iterative Requirements for React-TypeScript Image Gallery
 
-Eine Bildergalerie-Webseite mit React/TypeScript und Vite im Polaroid-Stil. Initial 5 quadratische Bilder (300x300px) von Lorem Picsum, keine Persistierung, barrierefrei.
+An image gallery website built with React/TypeScript and Vite in Polaroid style. Initially 5 square images (300x300px) from Lorem Picsum, no persistence.
 
 ### Steps
 
-1. **Iteration 1: Vite-Setup & Polaroid-Grid** - Vite-Projekt mit React-TypeScript Template, CSS Grid mit `repeat(3, 1fr)`, 5 initiale Bilder von Lorem Picsum (`https://picsum.photos/300/300?random={seed}`), Polaroid-Styling: padding (12px top/left/right, 45px bottom), border (1px solid #e0e0e0), box-shadow, zufällige Rotation pro Bild (±2-5°)
-2. **Iteration 2: Plus-Button am Galerie-Ende** - Plus-Kachel als letztes Grid-Item, gleiche Dimensionen wie Polaroid, gestrichelter Rahmen (`2px dashed #ccc`), zentriertes +-Symbol, onClick fügt neues Bild mit eindeutigem Random-Seed hinzu, aria-label "Neues Bild hinzufügen"
-3. **Iteration 3: Wobble-Animation bei Hover** - CSS @keyframes mit `rotate()` relativ zur initialen Rotation (±3°), Animation nur auf Polaroid-Bildern, 0.4s ease-in-out, sanftes Wackeln von Ausgangsrotation
-4. **Iteration 4: Rechtsklick-Kontextmenü** - onContextMenu auf Bild-Cards mit `preventDefault()`, Context Menu Component an Cursor-Position, "Bild entfernen" Option, aria-label für Kontextmenü-Optionen, Keyboard-Navigation (Tab, Enter) für Barrierefreiheit
-5. **Iteration 5: Responsive & UX-Details** - Media Queries (≤768px: 2 Spalten, ≤480px: 1 Spalte), Plus-Button Hover-Effekt (opacity: 0.7), Click-outside schließt Kontextmenü, ESC-Key schließt Menü, Cursor-Pointer, Focus-Styles für Tastatur-Navigation
+1. **Iteration 1: Vite Setup & Polaroid Grid** - Vite project with React-TypeScript template, CSS Grid with `repeat(3, 1fr)`, 5 initial images from Lorem Picsum (`https://picsum.photos/300/300?random={seed}`), Polaroid styling: padding (12px top/left/right, 45px bottom), border (1px solid #e0e0e0), box-shadow (`0 4px 8px rgba(0,0,0,0.1)`), random rotation per image (±2-5° via inline style or CSS variable)
+2. **Iteration 2: Plus Button at Gallery End** - Plus tile as last grid item, same dimensions as Polaroid card, dashed border (`border: 2px dashed #ccc`), centered + symbol (font-size 48px), onClick adds new image with unique random seed to state
+3. **Iteration 3: Wobble Animation on Hover** - CSS @keyframes with `rotate()` relative to initial rotation, animation only on Polaroid images (not on plus button), 0.4s ease-in-out, gentle wobble ±3° from initial rotation
+4. **Iteration 4: Right-Click Context Menu** - onContextMenu only on image cards (not on plus button), `e.preventDefault()` blocks native menu, context menu component at `(e.pageX, e.pageY)` position, "Remove image" option filters image ID from state
+5. **Iteration 5: Responsive & UX Details** - Media queries (≤768px: 2 columns, ≤480px: 1 column), plus button hover effect (opacity: 0.7, slight scale), click-outside closes context menu, ESC key closes menu, cursor pointer on interactive elements
 
 ### Further Considerations
 
-1. **Kontextmenü-Trigger**: Soll das Kontextmenü zusätzlich per Tastatur aufrufbar sein (z.B. Shift+F10 oder Kontextmenü-Taste)? Empfohlen für vollständige Accessibility.
-2. **Screen-Reader**: Sollen Bilder alt-Text erhalten (z.B. "Zufälliges Bild {nummer}")? Wichtig für barrierefreie Nutzung.
+1. **Initial Rotations**: Should they be randomly regenerated on reload or fixed per image seed? Random on each mount recommended for natural look.
+2. **TypeScript Interfaces**: `interface PolaroidImage { id: string; seed: number; rotation: number }` for type-safe state management?
+3. **Accessibility**: Aria labels for plus button ("Add new image") and context menu items?
 
-User: Für die Demo unterstützen wir nur die Maus, keine Tastaturkürzel. Alt-Text sollte vorhanden sein.
+User: The rotation is always random on reload, that's fine. I don't want to specify the interface definition in the requirements, since they should be defined from the user's perspective and not contain technical details. Accessibility would be good!
 
-GitHub Copilot: ## Plan: Iterative Requirements für React-TypeScript Bildergalerie
+GitHub Copilot: ## Plan: Iterative Requirements for React-TypeScript Image Gallery
 
-Eine Bildergalerie-Webseite mit React/TypeScript und Vite im Polaroid-Stil. Initial 5 quadratische Bilder (300x300px) von Lorem Picsum, keine Persistierung, Alt-Text für Screen-Reader.
+An image gallery website built with React/TypeScript and Vite in Polaroid style. Initially 5 square images (300x300px) from Lorem Picsum, no persistence, accessible.
 
 ### Steps
 
-1. **Iteration 1: Vite-Setup & Polaroid-Grid** - Vite-Projekt mit React-TypeScript Template, CSS Grid mit `repeat(3, 1fr)`, 5 initiale Bilder von Lorem Picsum (`https://picsum.photos/300/300?random={seed}`), Polaroid-Styling: padding (12px top/left/right, 45px bottom), border (1px solid #e0e0e0), box-shadow, zufällige Rotation pro Bild (±2-5°), alt-Text "Bild {nummer}"
-2. **Iteration 2: Plus-Button am Galerie-Ende** - Plus-Kachel als letztes Grid-Item, gleiche Dimensionen wie Polaroid, gestrichelter Rahmen (`2px dashed #ccc`), zentriertes +-Symbol, onClick fügt neues Bild mit eindeutigem Random-Seed hinzu, cursor: pointer, aria-label "Neues Bild hinzufügen"
-3. **Iteration 3: Wobble-Animation bei Hover** - CSS @keyframes mit `rotate()` relativ zur initialen Rotation (±3°), Animation nur auf Polaroid-Bildern, 0.4s ease-in-out, sanftes Wackeln beim Mouse Over
-4. **Iteration 4: Rechtsklick-Kontextmenü** - Rechtsklick auf Bild-Cards öffnet Context Menu mit `preventDefault()`, Menü an Cursor-Position (`pageX/pageY`), "Bild entfernen" Option per Linksklick, Menü schließt nach Aktion oder Click-outside
-5. **Iteration 5: Responsive & UX-Details** - Media Queries (≤768px: 2 Spalten, ≤480px: 1 Spalte), Plus-Button Hover-Effekt (opacity: 0.7), Click-outside schließt Kontextmenü, cursor: pointer auf interaktiven Elementen
+1. **Iteration 1: Vite Setup & Polaroid Grid** - Vite project with React-TypeScript template, CSS Grid with `repeat(3, 1fr)`, 5 initial images from Lorem Picsum (`https://picsum.photos/300/300?random={seed}`), Polaroid styling: padding (12px top/left/right, 45px bottom), border (1px solid #e0e0e0), box-shadow, random rotation per image (±2-5°)
+2. **Iteration 2: Plus Button at Gallery End** - Plus tile as last grid item, same dimensions as Polaroid, dashed border (`2px dashed #ccc`), centered + symbol, onClick adds new image with unique random seed, aria-label "Add new image"
+3. **Iteration 3: Wobble Animation on Hover** - CSS @keyframes with `rotate()` relative to initial rotation (±3°), animation only on Polaroid images, 0.4s ease-in-out, gentle wobble from initial rotation
+4. **Iteration 4: Right-Click Context Menu** - onContextMenu on image cards with `preventDefault()`, context menu component at cursor position, "Remove image" option, aria-label for context menu options, keyboard navigation (Tab, Enter) for accessibility
+5. **Iteration 5: Responsive & UX Details** - Media queries (≤768px: 2 columns, ≤480px: 1 column), plus button hover effect (opacity: 0.7), click-outside closes context menu, ESC key closes menu, cursor pointer, focus styles for keyboard navigation
 
 ### Further Considerations
 
-1. **Alt-Text Nummerierung**: Durchlaufende Nummerierung "Bild 1", "Bild 2" etc. oder eindeutige IDs? Durchlaufend ist nutzerfreundlicher für Screen-Reader.
-2. **Kontextmenü-Styling**: Minimalistisch (weißer Hintergrund, border, shadow) oder im Polaroid-Stil gestaltet?
+1. **Context Menu Trigger**: Should the context menu also be accessible via keyboard (e.g., Shift+F10 or context menu key)? Recommended for full accessibility.
+2. **Screen Reader**: Should images have alt text (e.g., "Random image {number}")? Important for accessible use.
 
-User: Bitte durchlaufend numerieren und Kontextmenü ebenfalls im Polaroid-Stil halten.
+User: For the demo we only support the mouse, no keyboard shortcuts. Alt text should be present.
 
-GitHub Copilot: ## Plan: Iterative Requirements für React-TypeScript Bildergalerie
+GitHub Copilot: ## Plan: Iterative Requirements for React-TypeScript Image Gallery
 
-Eine Bildergalerie-Webseite mit React/TypeScript und Vite im Polaroid-Stil. Initial 5 quadratische Bilder (300x300px) von Lorem Picsum, keine Persistierung, Alt-Text für Screen-Reader.
+An image gallery website built with React/TypeScript and Vite in Polaroid style. Initially 5 square images (300x300px) from Lorem Picsum, no persistence, alt text for screen readers.
 
 ### Steps
 
-1. **Iteration 1: Vite-Setup & Polaroid-Grid** - Vite-Projekt mit React-TypeScript Template, CSS Grid mit `repeat(3, 1fr)`, 5 initiale Bilder von Lorem Picsum (`https://picsum.photos/300/300?random={seed}`), Polaroid-Styling: padding (12px top/left/right, 45px bottom), border (1px solid #e0e0e0), box-shadow, zufällige Rotation pro Bild (±2-5°), alt-Text mit durchlaufender Nummerierung "Bild 1", "Bild 2" etc.
-2. **Iteration 2: Plus-Button am Galerie-Ende** - Plus-Kachel als letztes Grid-Item, gleiche Dimensionen wie Polaroid, gestrichelter Rahmen (`2px dashed #ccc`), zentriertes +-Symbol, onClick fügt neues Bild hinzu, cursor: pointer, aria-label "Neues Bild hinzufügen", neue Bilder erhalten fortlaufende Nummer
-3. **Iteration 3: Wobble-Animation bei Hover** - CSS @keyframes mit `rotate()` relativ zur initialen Rotation (±3°), Animation nur auf Polaroid-Bildern (nicht auf Plus-Button), 0.4s ease-in-out, sanftes Wackeln beim Mouse Over
-4. **Iteration 4: Rechtsklick-Kontextmenü** - Rechtsklick auf Bild-Cards öffnet Context Menu mit `preventDefault()`, Menü an Cursor-Position, Polaroid-Styling (weißer Hintergrund, border 1px solid #e0e0e0, box-shadow), "Bild entfernen" Option per Linksklick, Menü schließt nach Aktion oder Click-outside
-5. **Iteration 5: Responsive & UX-Details** - Media Queries (≤768px: 2 Spalten, ≤480px: 1 Spalte), Plus-Button Hover-Effekt (opacity: 0.7), Click-outside schließt Kontextmenü, cursor: pointer auf interaktiven Elementen, Alt-Text-Nummerierung passt sich dynamisch an aktuelle Bildanzahl an
+1. **Iteration 1: Vite Setup & Polaroid Grid** - Vite project with React-TypeScript template, CSS Grid with `repeat(3, 1fr)`, 5 initial images from Lorem Picsum (`https://picsum.photos/300/300?random={seed}`), Polaroid styling: padding (12px top/left/right, 45px bottom), border (1px solid #e0e0e0), box-shadow, random rotation per image (±2-5°), alt text "Image {number}"
+2. **Iteration 2: Plus Button at Gallery End** - Plus tile as last grid item, same dimensions as Polaroid, dashed border (`2px dashed #ccc`), centered + symbol, onClick adds new image with unique random seed, cursor: pointer, aria-label "Add new image"
+3. **Iteration 3: Wobble Animation on Hover** - CSS @keyframes with `rotate()` relative to initial rotation (±3°), animation only on Polaroid images, 0.4s ease-in-out, gentle wobble on mouse over
+4. **Iteration 4: Right-Click Context Menu** - Right-click on image cards opens context menu with `preventDefault()`, menu at cursor position (`pageX/pageY`), "Remove image" option via left-click, menu closes after action or click-outside
+5. **Iteration 5: Responsive & UX Details** - Media queries (≤768px: 2 columns, ≤480px: 1 column), plus button hover effect (opacity: 0.7), click-outside closes context menu, cursor: pointer on interactive elements
 
 ### Further Considerations
 
-Der Plan ist vollständig definiert und bereit zur Umsetzung. Alle Requirements sind aus Nutzersicht beschrieben und ermöglichen einen iterativen Entwicklungsprozess mit inkrementellem Mehrwert pro Iteration.
+1. **Alt Text Numbering**: Sequential numbering "Image 1", "Image 2" etc. or unique IDs? Sequential is more user-friendly for screen readers.
+2. **Context Menu Styling**: Minimalist (white background, border, shadow) or styled in Polaroid fashion?
+
+User: Please use sequential numbering and keep the context menu in Polaroid style as well.
+
+GitHub Copilot: ## Plan: Iterative Requirements for React-TypeScript Image Gallery
+
+An image gallery website built with React/TypeScript and Vite in Polaroid style. Initially 5 square images (300x300px) from Lorem Picsum, no persistence, alt text for screen readers.
+
+### Steps
+
+1. **Iteration 1: Vite Setup & Polaroid Grid** - Vite project with React-TypeScript template, CSS Grid with `repeat(3, 1fr)`, 5 initial images from Lorem Picsum (`https://picsum.photos/300/300?random={seed}`), Polaroid styling: padding (12px top/left/right, 45px bottom), border (1px solid #e0e0e0), box-shadow, random rotation per image (±2-5°), alt text with sequential numbering "Image 1", "Image 2" etc.
+2. **Iteration 2: Plus Button at Gallery End** - Plus tile as last grid item, same dimensions as Polaroid, dashed border (`2px dashed #ccc`), centered + symbol, onClick adds new image, cursor: pointer, aria-label "Add new image", new images receive sequential number
+3. **Iteration 3: Wobble Animation on Hover** - CSS @keyframes with `rotate()` relative to initial rotation (±3°), animation only on Polaroid images (not on plus button), 0.4s ease-in-out, gentle wobble on mouse over
+4. **Iteration 4: Right-Click Context Menu** - Right-click on image cards opens context menu with `preventDefault()`, menu at cursor position, Polaroid styling (white background, border 1px solid #e0e0e0, box-shadow), "Remove image" option via left-click, menu closes after action or click-outside
+5. **Iteration 5: Responsive & UX Details** - Media queries (≤768px: 2 columns, ≤480px: 1 column), plus button hover effect (opacity: 0.7), click-outside closes context menu, cursor: pointer on interactive elements, alt text numbering dynamically adjusts to current image count
+
+### Further Considerations
+
+The plan is fully defined and ready for implementation. All requirements are described from the user's perspective and enable an iterative development process with incremental value per iteration.
 
 User: #createFile the plan as is into an untitled file (`untitled:plan-${camelCaseName}.prompt.md` without frontmatter) for further refinement.
 
 GitHub Copilot: Created [](untitled:plan-reactPolaroidGallery.prompt.md)
 
-Plan wurde als `plan-reactPolaroidGallery.prompt.md` erstellt und kann nun weiter verfeinert werden.
+Plan was created as `plan-reactPolaroidGallery.prompt.md` and can now be further refined.
 
 Made changes.

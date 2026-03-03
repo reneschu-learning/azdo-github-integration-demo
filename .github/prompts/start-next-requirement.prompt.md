@@ -5,8 +5,8 @@ agent: agent
 model: Claude Sonnet 4.5 (copilot)
 tools: ['microsoft/azure-devops-mcp/*']
 ---
-Weise das nächste Requirement und sämtliche Tasks mir zu und setze den Status des Requirements auf Committed.
+Assign the next requirement and all its tasks to me and set the requirement status to Committed.
 
-Das nächste Requirement ist weiter weiter unten spezifiziert. Falls nicht, berücksichtige die Position der Anforderungen im Backlog und wähle die nächste Anforderung im Zustand "Approved" aus. Gibt es keine solche Anforderung, gib bitte eine entsprechende Rückmeldung.
+The next requirement is specified further below. If not, consider the position of requirements in the backlog and select the next requirement in the "Approved" state. If there is no such requirement, please provide appropriate feedback.
 
-**WICHTIG:** Sollte der Benutzer eine konkrete Anforderung spezifizieren (z.B. über die ID), prüfe zunächst, ob diese Anforderung existiert und im Zustand "Approved" ist. Falls ja, weise diese Anforderung und die zugehörigen Tasks zu und setze den Status der Anforderung auf "Committed". Falls die Anforderung nicht existiert oder nicht im Zustand "Approved" ist, gib eine entsprechende Rückmeldung und frage nach, ob der Benutzer wirklich mit dieser Anforderung fortfahren möchte. Weise die Anforderung und die Tasks nur dann zu und setze den Status auf "Committed", **wenn der Benutzer dies ausdrücklich bestätigt**! Anderenfalls frage den Benutzer, ob er eine andere konkrete Anforderung angeben möchte oder ob er die nächste verfügbare Anforderung zugewiesen bekommen möchte.
+**IMPORTANT:** If the user specifies a specific requirement (e.g., by ID), first check whether this requirement exists and is in the "Approved" state. If so, assign this requirement and the associated tasks and set the requirement status to "Committed". If the requirement does not exist or is not in the "Approved" state, provide appropriate feedback and ask whether the user really wants to proceed with this requirement. Only assign the requirement and tasks and set the status to "Committed" **if the user explicitly confirms**! Otherwise, ask the user whether they want to specify a different requirement or whether they want to be assigned the next available requirement.

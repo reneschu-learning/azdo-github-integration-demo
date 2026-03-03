@@ -1,205 +1,205 @@
-# Azure DevOps und GitHub Integration - Demo
-Diese Demo zeigt folgende Aspekte der Integration zwischen Azure DevOps und GitHub:
+# Azure DevOps and GitHub Integration - Demo
+This demo showcases the following aspects of the integration between Azure DevOps and GitHub:
 
-- Nutzung von GitHub Copilot und Azure DevOps MCP Server zur Erstellung von Requirements und zugehörigen Tasks.
-- Implementierung von Tasks mit GitHub Copilot.
-- Verwaltung des Codes in GitHub Repositories mit Verknüpfungen zu Azure Boards Work Items.
-- Automatisierung von Builds und Deployments mit Azure Pipelines.
-- Nutzung des GitHub Coding Agents zur autonomen Implementierung von Features basierend auf Azure Boards Work Items.
+- Using GitHub Copilot and the Azure DevOps MCP Server to create requirements and associated tasks.
+- Implementing tasks with GitHub Copilot.
+- Managing code in GitHub repositories with links to Azure Boards work items.
+- Automating builds and deployments with Azure Pipelines.
+- Using the GitHub Coding Agent for autonomous feature implementation based on Azure Boards work items.
 
-## Inhaltsverzeichnis
-- [Voraussetzungen](#voraussetzungen)
-- [Was kann man zeigen?](#was-kann-man-zeigen)
-  - [Harmonisierte Lizensierung](#harmonisierte-lizensierung)
-  - [Erzeugung von Product Backlog Items](#erzeugung-von-product-backlog-items)
-  - [Zerlegung von Anforderungen in Tasks](#zerlegung-von-anforderungen-in-tasks)
-  - [Nächstes Requirement finden](#nächstes-requirement-finden)
-  - [Nächstes Requirement übernehmen](#nächstes-requirement-übernehmen)
-  - [Implementieren von Tasks](#implementieren-von-tasks)
+## Table of Contents
+- [Prerequisites](#prerequisites)
+- [What Can Be Demonstrated?](#what-can-be-demonstrated)
+  - [Unified Licensing](#unified-licensing)
+  - [Creating Product Backlog Items](#creating-product-backlog-items)
+  - [Breaking Down Requirements into Tasks](#breaking-down-requirements-into-tasks)
+  - [Finding the Next Requirement](#finding-the-next-requirement)
+  - [Picking Up the Next Requirement](#picking-up-the-next-requirement)
+  - [Implementing Tasks](#implementing-tasks)
   - [Copilot Code Review in GitHub](#copilot-code-review-in-github)
-  - [Autonome Implementierung mit GitHub Coding Agent](#autonome-implementierung-mit-github-coding-agent)
-  - [Build- und Deployment-Automatisierung mit Azure Pipelines](#build--und-deployment-automatisierung-mit-azure-pipelines)
+  - [Autonomous Implementation with GitHub Coding Agent](#autonomous-implementation-with-github-coding-agent)
+  - [Build and Deployment Automation with Azure Pipelines](#build-and-deployment-automation-with-azure-pipelines)
 
 
-## Voraussetzungen
-- Azure DevOps Organisation und GitHub Enterprise (EMU) verbunden mit demselben Entra Tenant.
-- Projekt in Azure DevOps.
-- Organisation mit GitHub Repository.
-- Integration von Azure DevOps und GitHub und aktivierte Verbindung zwischen Azure DevOps Projekt und GitHub Repository.
-- Autolink Referenzen im GitHub Repository konfiguriert (AB#123 zeigt auf https://dev.azure.com/ORG/PROJECT/_workitems/edit/123).
-- GitHub Copilot und GitHub Coding Agent aktiviert für die Nutzer.
-- Azure DevOps MCP Server lokal konfiguriert.
+## Prerequisites
+- Azure DevOps organization and GitHub Enterprise (EMU) connected to the same Entra tenant.
+- A project in Azure DevOps.
+- An organization with a GitHub repository.
+- Integration of Azure DevOps and GitHub with an active connection between the Azure DevOps project and the GitHub repository.
+- Autolink references configured in the GitHub repository (AB#123 points to https://dev.azure.com/ORG/PROJECT/_workitems/edit/123).
+- GitHub Copilot and GitHub Coding Agent enabled for the users.
+- Azure DevOps MCP Server configured locally.
 
-[:back: zurück](#inhaltsverzeichnis)
+[:back: back](#table-of-contents)
 
-## Was kann man zeigen?
-Die Demo erstellt eine einfache statische Webseite mit einer Bildergalerie. Die Anforderungen für die Webseite werden als Product Backlog Items in Azure DevOps erstellt, in Tasks zerlegt und anschließend mit GitHub Copilot implementiert. Der Code wird in einem GitHub Repository verwaltet, das mit Azure DevOps verknüpft ist, so dass eine vollständige Nachvollziehbarkeit zwischen Anforderungen, Tasks und Codeänderungen gegeben ist:
+## What Can Be Demonstrated?
+This demo creates a simple static website with an image gallery. The requirements for the website are created as Product Backlog Items in Azure DevOps, broken down into tasks, and then implemented using GitHub Copilot. The code is managed in a GitHub repository linked to Azure DevOps, providing full traceability between requirements, tasks, and code changes:
 
-![Demo-Applliation](./assets/FinalSolution.png)
+![Demo Application](./assets/FinalSolution.png)
 
-Viele Demos verwenden den Azure DevOps MCP Server zur Interaktion zwischen GitHub Copilot und Azure DevOps. Dazu wurden einige vorgefertigte Prompts erstellt, die in diesem Repository unter `./.github/prompts/` zu finden sind. In den einzelnen Demos wird auf die notwendigen Prompt-Dateien verwiesen.
+Many demos use the Azure DevOps MCP Server for interaction between GitHub Copilot and Azure DevOps. Several pre-built prompts have been created for this purpose, which can be found in this repository under `./.github/prompts/`. The individual demos reference the necessary prompt files.
 
-**Wichtig:** Vor der Ausführung sollte der Azure DevOps MCP Server lokal gestartet werden. Danach sollte man eine Abfrage im Copilot machen, z.B. "Auf welche Projekte in Azure DevOps habe ich Zugriff?", da bei der ersten Anfrage wird eine Authentifizierung über den Browser erforderlich sein. Hierbei unbedingt die gleiche Entra-Identität verwenden, die auch für den Zugriff auf Azure DevOps und GitHub genutzt wird, um eine reibungslose Integration zu gewährleisten. Macht man die Abfrage vor der Demo nicht, so kann es vorkommen, dass der MCP Server viele Authentifizierungsanfragen parallel erzeugt, was zu Verwirrung führen kann!
+**Important:** Before running the demo, the Azure DevOps MCP Server should be started locally. Afterward, you should make a query in Copilot, e.g., "Which projects in Azure DevOps do I have access to?", since the first request will require browser-based authentication. Make sure to use the same Entra identity that is also used to access Azure DevOps and GitHub, to ensure smooth integration. If this initial query is not made before the demo, the MCP Server may generate many authentication requests in parallel, which can cause confusion!
 
-### Harmonisierte Lizensierung
-Nutzer arbeiten mit Ihrer Entra-Identität, um auf beide Plattformen zuzugreifen. In der User-Übersicht in Azure DevOps werden die GitHub Enterprise Nutzer angezeigt, und die Lizenzen werden entsprechend zugeordnet:
+### Unified Licensing
+Users work with their Entra identity to access both platforms. In the user overview in Azure DevOps, GitHub Enterprise users are displayed, and licenses are assigned accordingly:
 
-![Harmonisierte Lizensierung](./assets/CrossLicensingAzDOGitHub.png)
+![Unified Licensing](./assets/CrossLicensingAzDOGitHub.png)
 
-[:back: zurück](#inhaltsverzeichnis)
+[:back: back](#table-of-contents)
 
-### Grundlegende Konfiguration von GitHub Copilot für Azure DevOps und GitHub
-Um die Integration zwischen GitHub Copilot und Azure DevOps optimal zu nutzen, sollten einige Kontextinformationen in der Datei [./.github/copilot-instructions.md](./.github/copilot-instructions.md) hinterlegt werden. Diese Informationen stehen dann in allen Prompts zur Verfügung und ermöglichen es GitHub Copilot, die Antworten entsprechend zu formulieren.
+### Basic GitHub Copilot Configuration for Azure DevOps and GitHub
+To make the most of the integration between GitHub Copilot and Azure DevOps, some context information should be provided in the file [./.github/copilot-instructions.md](./.github/copilot-instructions.md). This information is then available in all prompts and enables GitHub Copilot to formulate responses accordingly.
 
-In dieser Demo wird z.B. explizit auf die Nutzung der MCP Server hingewiesen, damit Prompts einfacher formuliert werden können.
+In this demo, for example, the use of MCP Servers is explicitly referenced so that prompts can be formulated more easily.
 
-[:back: zurück](#inhaltsverzeichnis)
+[:back: back](#table-of-contents)
 
-### Erzeugung von Product Backlog Items
-Für die Demo wurden Anforderungen für eine statische Webseite mit Bildergalerie mit Hilfe des Planning Agents erstellt (nicht Teil der Demo). Diese sind in der Datei [requirements.md](./requirements.md) dokumentiert.
+### Creating Product Backlog Items
+For the demo, requirements for a static website with an image gallery were created using the Planning Agent (not part of the demo). These are documented in the file [requirements.md](./requirements.md).
 
-**Hinweis:** Der Ablauf der Planung kann in der Datei [requirements-planning.md](./chats/requirements-planning.md) nachvollzogen werden, falls notwendig.
+**Note:** The planning process can be reviewed in the file [requirements-planning.md](./chats/requirements-planning.md), if needed.
 
-Der Prompt in der Datei [./.github/prompts/create-requirements.prompt.md](./.github/prompts/create-requirements.prompt.md) kann genutzt werden, um die zuvor geplanten Anforderungen als Product Backlog Items in Azure DevOps zu erstellen.
+The prompt in the file [./.github/prompts/create-requirements.prompt.md](./.github/prompts/create-requirements.prompt.md) can be used to create the previously planned requirements as Product Backlog Items in Azure DevOps.
 
 ```
-Prompt: /create-requirements für Datei #requirements.md
+Prompt: /create-requirements for file #requirements.md
 ```
 
-Als Ergebnis sollten fünf Product Backlog Items in Azure DevOps erstellt werden, die den Anforderungen aus der Datei entsprechen. Im Gegensatz zur Datei `requirements.md` sind die Items allerdings als User Stories formuliert und enthalten keine technischen Details (siehe Prompt-Datei).
+As a result, five Product Backlog Items should be created in Azure DevOps that correspond to the requirements from the file. Unlike the `requirements.md` file, the items are formulated as user stories and do not contain technical details (see the prompt file).
 
-![Erzeugte Product Backlog Items in Azure DevOps](./assets/Requirements.png)
-![Details eines Product Backlog Items](./assets/RequirementDetails.png)
+![Created Product Backlog Items in Azure DevOps](./assets/Requirements.png)
+![Details of a Product Backlog Item](./assets/RequirementDetails.png)
 
-Nach der Erstellung der Product Backlog Items sollten diese in den Zustand "Approved" versetzt werden. Ein Product Owner würde in einem realen Szenario die Anforderungen prüfen und entscheiden, ob sie sinnvoll sind (Zustand "Approved"), die überarbeitet werden müssen oder sie irrelevant sind (Zustand "Removed"). Zusätzlich kann man hier schon sehen, dass Copilot die Reihenfolge der Anforderungen nicht immer optimal wählt und diese im Backlog entsprechend neu sortieren.
+After creating the Product Backlog Items, they should be set to the "Approved" state. In a real scenario, a Product Owner would review the requirements and decide whether they are valid ("Approved" state), need rework, or are irrelevant ("Removed" state). Additionally, you may notice that Copilot does not always choose the optimal order for the requirements, and they may need to be reordered in the backlog accordingly.
 
-[:back: zurück](#inhaltsverzeichnis)
+[:back: back](#table-of-contents)
 
-### Zerlegung von Anforderungen in Tasks
-Nachdem die Product Backlog Items erstellt wurden, können diese mit einem weiteren Prompt in der Datei [./.github/prompts/create-tasks.prompt.md](./.github/prompts/create-tasks.prompt.md) in Tasks zerlegt werden.
+### Breaking Down Requirements into Tasks
+After the Product Backlog Items have been created, they can be broken down into tasks using another prompt in the file [./.github/prompts/create-tasks.prompt.md](./.github/prompts/create-tasks.prompt.md).
 
 ```
 Prompt: /create-tasks
 ```
 
-Als Ergebnis sollten zu jedem Product Backlog Item mehrere Tasks als Child-Links in Azure DevOps erstellt werden, die die notwendigen Entwicklungsschritte abbilden und technische Informationen enthalten. Die Tasks sollten so formuliert sein, dass sie sich gut iterativ umsetzen lassen (siehe Prompt-Datei).
+As a result, multiple tasks should be created as child links in Azure DevOps for each Product Backlog Item, representing the necessary development steps and containing technical information. The tasks should be formulated so that they can be implemented iteratively (see the prompt file).
 
-![Zerlegte Tasks in Azure DevOps](./assets/Tasks.png)
-![Details eines Tasks](./assets/TaskDetails.png)
+![Decomposed Tasks in Azure DevOps](./assets/Tasks.png)
+![Details of a Task](./assets/TaskDetails.png)
 
-[:back: zurück](#inhaltsverzeichnis)
+[:back: back](#table-of-contents)
 
-### Nächstes Requirement finden
-Über den Prompt in der Datei [./github/prompts/get-next-requirement.prompt.md](./.github/prompts/get-next-requirement.prompt.md) kann der nächste offene Requirement (Product Backlog Item) abgefragt werden.
+### Finding the Next Requirement
+Using the prompt in the file [./github/prompts/get-next-requirement.prompt.md](./.github/prompts/get-next-requirement.prompt.md), the next open requirement (Product Backlog Item) can be queried.
 
 ```
 Prompt: /get-next-requirement
 ```
 
-Natürlich können auch andere Formulierungen verwendet werden. Der Einfachheit halber wird in der Demo nicht mit Sprints gearbeitet, obwohl GitHub Copilot in der Regel auch die Sprint-Zugehörigkeit berücksichtigen würde, wenn diese Informationen in Azure DevOps gepflegt sind. In einem realen Szenario würde man im Prompt z.B. explizit auf Anforderungen im Zustand "Committed" verweisen, die sich im aktuellen Sprint eines bestimmten Teams befinden. Das Team sollte man im besten Fall in den allgemeinen Kontextinformationen in der Datei [./.github/copilot-instructions.md](./.github/copilot-instructions.md) hinterlegen, damit es in allen Prompts zur Verfügung steht.
+Of course, other formulations can also be used. For simplicity, this demo does not work with sprints, although GitHub Copilot would typically also consider sprint membership if this information is maintained in Azure DevOps. In a real scenario, the prompt would explicitly reference requirements in the "Committed" state that are in the current sprint of a specific team. The team should ideally be specified in the general context information in the file [./.github/copilot-instructions.md](./.github/copilot-instructions.md), so it is available in all prompts.
 
-[:back: zurück](#inhaltsverzeichnis)
+[:back: back](#table-of-contents)
 
-### Nächstes Requirement übernehmen
-Möchte man an einem Requirement arbeiten, so kann man den Prompt in der Datei [./github/prompts/start-next-requirement.prompt.md](./.github/prompts/start-next-requirement.prompt.md) verwenden. Man kann entweder gezielt ein bestimmtes Requirement übernehmen oder sich einfach das nächste offene Requirement geben lassen, um es zu übernehmen. In beiden Fällen werden die notwendigen Informationen zum Requirement abgefragt und in den Kontext übernommen, damit sie für die anschließende Implementierung zur Verfügung stehen.
+### Picking Up the Next Requirement
+When you want to work on a requirement, you can use the prompt in the file [./github/prompts/start-next-requirement.prompt.md](./.github/prompts/start-next-requirement.prompt.md). You can either pick up a specific requirement or simply get the next open requirement to work on. In both cases, the necessary information about the requirement is retrieved and added to the context, so it is available for the subsequent implementation.
 
-**Nächstes verfügbares Requirement übernehmen:**
+**Pick up the next available requirement:**
 ```
 Prompt: /start-next-requirement
 ```
 
-**Bestimmtes Requirement übernehmen:**
+**Pick up a specific requirement:**
 ```
 Prompt: /start-next-requirement PBI 123
 ```
 
-Der Prompt berücksichtigt dabei, dass nur Anforderungen im Zustand "Approved" übernommen werden sollten. Dies kann man demonstrieren, indem man manuell ein neues PBI im Zustand "New" erstellt und dann versucht, dieses mit dem Prompt zu übernehmen. GitHub Copilot sollte dann ablehnen, dieses Requirement zu übernehmen, da es nicht den Kriterien entspricht. In einem realen Szenario würde man hier ggf. nur Elemente aus dem aktuellen Sprint übernehmen oder zusätzliche Schritte vorsehen (z.B. Übernahme in den Sprint). Alternativ könnte man auch über ein benutzerdefiniertes Feld oder einen Zustand arbeiten, der das Refinement abbildet, so dass nur "ready" Anforderungen übernommen werden können.
+The prompt takes into account that only requirements in the "Approved" state should be picked up. You can demonstrate this by manually creating a new PBI in the "New" state and then trying to pick it up with the prompt. GitHub Copilot should then refuse to pick up this requirement because it does not meet the criteria. In a real scenario, you might only pick up items from the current sprint or add additional steps (e.g., adding to the sprint). Alternatively, you could also use a custom field or state representing refinement, so that only "ready" requirements can be picked up.
 
-Nach der Ausführung kann man in Azure DevOps zeigen, dass die Anforderung und alle Kind-Tasks dem aktuellen Benutzer zugewiesen wurden und die Anforderung tatsächlich im Zustand "Committed" ist.
+After execution, you can show in Azure DevOps that the requirement and all child tasks have been assigned to the current user and that the requirement is indeed in the "Committed" state.
 
-![Übernommenes Requirement in Azure DevOps](./assets/StartedRequirement.png)
+![Picked Up Requirement in Azure DevOps](./assets/StartedRequirement.png)
 
-[:back: zurück](#inhaltsverzeichnis)
+[:back: back](#table-of-contents)
 
-### Implementieren von Tasks
-Nachdem man eine Anforderung übernommen hat, kann man über den Prompt in der Datei [./.github/prompts/implement-next-task.prompt.md](./.github/prompts/implement-next-task.prompt.md) den nächsten offenen Task zum übernommenen Requirement implementieren. Der Prompt führt durch die notwendigen Schritte, um die Aufgabe zu auf einem neuen Feature-Branch implementieren, zu testen und die Änderungen zu committen und zu pushen.
+### Implementing Tasks
+After picking up a requirement, the next open task for the assigned requirement can be implemented using the prompt in the file [./.github/prompts/implement-next-task.prompt.md](./.github/prompts/implement-next-task.prompt.md). The prompt guides you through the necessary steps to implement the task on a new feature branch, test it, and then commit and push the changes.
 
 ```
 Prompt: /implement-next-task
 ```
 
-![Copilot's Plan für die Implementierung](./assets/ImplementationPlan.png)
-![Start der Implementierung](./assets/ImplementationStarted.png)
+![Copilot's Implementation Plan](./assets/ImplementationPlan.png)
+![Implementation Started](./assets/ImplementationStarted.png)
 
-Sobald ein Task implementiert wurde, kann man die volle Nachvollziehbarkeit zwischen Azure DevOps und GitHub zeigen. Der Task enthält Links zu den Commits im GitHub Repository, die Commits enthalten die passenden Referenzen im Format "AB#123" zum Task in Azure DevOps. Sofern die Autolink Referenzen korrekt konfiguriert sind, kann man von GitHub direkt zu den verknüpften Work Items in Azure DevOps navigieren.
+Once a task has been implemented, you can demonstrate full traceability between Azure DevOps and GitHub. The task contains links to the commits in the GitHub repository, and the commits contain matching references in the format "AB#123" to the task in Azure DevOps. If autolink references are correctly configured, you can navigate directly from GitHub to the linked work items in Azure DevOps.
 
-![Vollständiger Commit auf einem Feature-Branch](./assets/ImplementationCommit.png)
-![Fertiggestellter Task...](./assets/ImplementationFinished.png)
-![...mit Links zu den Commits](./assets/TaskWithLinkToGitHub.png)
+![Complete Commit on a Feature Branch](./assets/ImplementationCommit.png)
+![Completed Task...](./assets/ImplementationFinished.png)
+![...with Links to the Commits](./assets/TaskWithLinkToGitHub.png)
 
-Alternativ kann man GitHub Copilot auch auffordern, alle offenen Tasks in der richtigen Reihenfolge zu implementieren. Dazu kann der Prompt [./.github/prompts/implement-all-tasks.prompt.md](./.github/prompts/implement-all-tasks.prompt.md) verwendet werden. Der Prompt stellt auch sicher, dass die Tasks vollständig nacheinander abgearbeitet und nicht mehrere Implementierungen zusammengefasst werden.
+Alternatively, you can ask GitHub Copilot to implement all open tasks in the correct order. The prompt [./.github/prompts/implement-all-tasks.prompt.md](./.github/prompts/implement-all-tasks.prompt.md) can be used for this. The prompt also ensures that tasks are processed sequentially and that multiple implementations are not combined.
 
 ```
 Prompt: /implement-all-tasks
 ```
 
-Bei der Nutzung dieses Prompts kann man ebenfalls demonstrieren, wie GitHub Copilot über den GitHub MCP Server die Implementierung einer vollständigen Anforderung mit einem Pull Request abschließt und diesen sauber mit der Anforderung in Azure DevOps verknüpft.
+When using this prompt, you can also demonstrate how GitHub Copilot completes the implementation of an entire requirement with a pull request via the GitHub MCP Server and cleanly links it to the requirement in Azure DevOps.
 
-![Pull Request in GitHub mit Verknüpfung zum Requirement in Azure DevOps](./assets/PullRequest.png)
-![Verknüpfung zum Pull Request in Azure DevOps](./assets/WorkItemLinkedToPullRequest.png)
+![Pull Request in GitHub Linked to the Requirement in Azure DevOps](./assets/PullRequest.png)
+![Link to the Pull Request in Azure DevOps](./assets/WorkItemLinkedToPullRequest.png)
 
-[:back: zurück](#inhaltsverzeichnis)
+[:back: back](#table-of-contents)
 
 ### Copilot Code Review in GitHub
-In einem erstellen Pull Request (z.B. über den Prompt `/implement-all-task`) kann man dann GitHub Copilot als Reviewer hinzufügen und den Prozess zeigen.
+In a created pull request (e.g., via the prompt `/implement-all-tasks`), you can add GitHub Copilot as a reviewer and demonstrate the process.
 
-![GitHub Copilot als Reviewer hinzufügen](./assets/AddCopilotAsReviewer.png)
+![Add GitHub Copilot as Reviewer](./assets/AddCopilotAsReviewer.png)
 ![GitHub Copilot Code Review](./assets/CopilotCodeReview.png)
-![Verbesserungsvorschlag von GitHub Copilot](./assets/CopilotCodeReviewSuggestion.png)
+![Improvement Suggestion from GitHub Copilot](./assets/CopilotCodeReviewSuggestion.png)
 
-[:back: zurück](#inhaltsverzeichnis)
+[:back: back](#table-of-contents)
 
-### Autonome Implementierung mit GitHub Coding Agent
-Mit der Integration von Azure DevOps und GitHub ist es möglich, den GitHub Coding Agent zu nutzen, um Features basierend auf Azure Boards Work Items autonom zu implementieren. Dazu müssen die Work Items allerdings so formuliert sein, dass sie ausreichend Kontext für die Implementierung bieten. Über den Prompt in der Datei [./.github/prompts/create-coding-agent-requirement.prompt.md](./.github/prompts/create-coding-agent-requirement.prompt.md) kann man eine Anforderung ohne Tasks erstellen lassen (Coding Agent arbeitet immer auf einem Work Item, nicht auf einer Work Item Hierarchie):
+### Autonomous Implementation with GitHub Coding Agent
+With the integration of Azure DevOps and GitHub, it is possible to use the GitHub Coding Agent to autonomously implement features based on Azure Boards work items. For this, the work items need to be formulated with sufficient context for implementation. Using the prompt in the file [./.github/prompts/create-coding-agent-requirement.prompt.md](./.github/prompts/create-coding-agent-requirement.prompt.md), you can create a requirement without tasks (the Coding Agent always works on a single work item, not on a work item hierarchy):
 
 ```
 Prompt: /create-coding-agent-requirement
 ```
 
-Anschließend kann man diese Anforderung in Azure DevOps zeigen, sie in den Zustand "Committed" versetzen (nicht zwingend notwendig) und sie dann über die Schaltfläche *Create a pull request with GitHub Copilot* an den Coding Agent übergeben:
+You can then show this requirement in Azure DevOps, set it to the "Committed" state (not strictly required), and then hand it over to the Coding Agent via the *Create a pull request with GitHub Copilot* button:
 
-![Anforderung für Coding Agent](./assets/AssignToCodingAgent.png)
-![Aufgabe an Coding Agent übergeben - Schritt 2](./assets/AssignToCodingAgentStep2.png)
+![Requirement for Coding Agent](./assets/AssignToCodingAgent.png)
+![Hand Over Task to Coding Agent - Step 2](./assets/AssignToCodingAgentStep2.png)
 
-**Hinweis:** Im zweiten Schritt werden in Zukunft auch Custom Agents auswählbar sein.
+**Note:** In the future, custom agents will also be selectable in the second step.
 
-Der Status des Coding Agents ist direkt in Azure DevOps sichtbar:
+The status of the Coding Agent is visible directly in Azure DevOps:
 
-![Status des Coding Agents in Azure DevOps](./assets/CodingAgentWorking.png)
+![Coding Agent Status in Azure DevOps](./assets/CodingAgentWorking.png)
 
-Außerdem kann man den Fortschritt des Coding Agents direkt in GitHub verfolgen:
+Additionally, you can follow the Coding Agent's progress directly in GitHub:
 
-![Fortschritt des Coding Agents in GitHub](./assets/CodingAgentPullRequest.png)
+![Coding Agent Progress in GitHub](./assets/CodingAgentPullRequest.png)
 
-[:back: zurück](#inhaltsverzeichnis)
+[:back: back](#table-of-contents)
 
-### Build- und Deployment-Automatisierung mit Azure Pipelines
-Um die Build- und Deployment-Automatisierung mit Azure Pipelines zu demonstrieren, müssen erst ein paar Vorbereitungen getroffen werden:
+### Build and Deployment Automation with Azure Pipelines
+To demonstrate build and deployment automation with Azure Pipelines, some preparations need to be made first:
 
-1. Azure-Umgebung vorbereiten
-   - Eine Azure Subscription als Ziel für das Deployment erzeugen.
-   - Ein Service Principal mit den notwendigen Berechtigungen für die Subscription erstellen. Der Einfachheit halber geht die Demo davon aus, dass das Service Principal die *Contributor* Rolle erhält, damit die notwendigen Ressourcen (inkl. Resource Group) automatisch durch die Pipeline erstellt werden können. Dies kann ebenfalls über die Azure CLI erfolgen:  
+1. Prepare the Azure environment
+   - Create an Azure subscription as the deployment target.
+   - Create a service principal with the required permissions for the subscription. For simplicity, this demo assumes the service principal receives the *Contributor* role, so necessary resources (including the Resource Group) can be created automatically by the pipeline. This can also be done via the Azure CLI:
      ```
      az ad sp create-for-rbac --name <ServicePrincipalName> --role Contributor --scopes /subscriptions/<SubscriptionId>
      ```
 
-2. Service Connection in Azure DevOps erstellen
-   - Eine neue Service Connection im Azure DevOps Projekt vom Typ "Azure Resource Manager" mit Workload Identity Federation (OIDC) erstellen (siehe https://learn.microsoft.com/en-us/azure/devops/pipelines/release/configure-workload-identity?view=azure-devops&tabs=app-registration).
+2. Create a Service Connection in Azure DevOps
+   - Create a new Service Connection in the Azure DevOps project of type "Azure Resource Manager" with Workload Identity Federation (OIDC) (see https://learn.microsoft.com/en-us/azure/devops/pipelines/release/configure-workload-identity?view=azure-devops&tabs=app-registration).
 
-Sobald die notwendigen Vorbereitungen getroffen wurden, kann die vorbereitete Pipeline in der Datei [./.pipelines/ci-cd.yaml](./.pipelines/ci-cd.yaml) aktiviert werden. Die Pipeline kann auf folgende Weise genutzt werden:
+Once the necessary preparations have been made, the pre-built pipeline in the file [./.pipelines/ci-cd.yaml](./.pipelines/ci-cd.yaml) can be activated. The pipeline can be used in the following ways:
 
-1. Manuell über die Azure DevOps Oberfläche, um den Prozess zu demonstrieren.
-2. Als Pull Request Gate, das in jedem Pull Request in den Main-Branch ausgeführt wird. Dazu muss der `pr`-Trigger in Zeile 17 auskommentiert/entfernt und der Trigger in den Zeilen 20 bis 31 aktiviert werden. Die Trigger-Definition sieht dann wie folgt aus:
+1. Manually via the Azure DevOps UI, to demonstrate the process.
+2. As a pull request gate, executed in every pull request to the main branch. To enable this, uncomment/remove the `pr` trigger on line 17 and activate the trigger on lines 20 to 31. The trigger definition would then look as follows:
    ```yaml
    pr:
      branches:
@@ -215,10 +215,10 @@ Sobald die notwendigen Vorbereitungen getroffen wurden, kann die vorbereitete Pi
          - README.md
    ```
 
-   ![Pipeline als Pull Request Gate](./assets/PullRequestBuild.png)
-   ![Build-Status im Pull Request](./assets/PullRequestChecks.png)
+   ![Pipeline as Pull Request Gate](./assets/PullRequestBuild.png)
+   ![Build Status in Pull Request](./assets/PullRequestChecks.png)
 
-3. Als CI/CD-Pipeline, die automatisch bei jedem Merge in den Main-Branch ausgelöst wird. Dazu muss der Trigger in Zeile 1 auskommentiert/entfernt und der Trigger in den Zeilen 4 bis 15 aktiviert werden. Die Trigger-Definition sieht dann wie folgt aus:
+3. As a CI/CD pipeline, automatically triggered on every merge to the main branch. To enable this, uncomment/remove the trigger on line 1 and activate the trigger on lines 4 to 15. The trigger definition would then look as follows:
    ```yaml
    trigger:
      branches:
@@ -234,16 +234,16 @@ Sobald die notwendigen Vorbereitungen getroffen wurden, kann die vorbereitete Pi
          - README.md
    ```
 
-   Zusätzlich muss in Zeile 53 der Name der zuvor erstellen Service Connection anstelle des Platzhalters `<your-service-connection>` eingetragen werden, damit die Pipeline sich mit Azure verbinden und die notwendigen Ressourcen erstellen kann.
+   Additionally, on line 53, the name of the previously created Service Connection must be entered in place of the placeholder `<your-service-connection>`, so the pipeline can connect to Azure and create the necessary resources.
 
-   ![Pipeline als CI/CD-Pipeline](./assets/CICDBuild.png)
+   ![Pipeline as CI/CD Pipeline](./assets/CICDBuild.png)
 
-Die Pipeline ist so konfiguriert, dass je nach Trigger unterschiedliche Schritte ausgeführt werden:
-- `Build`-Stage - immer ausgeführt  
-  Installiert und aktiviert die notwendigen Node.js-Version, installiert die Abhängigkeiten, führt den Build und die Tests aus und erzeugt ein Build-Artefakt für das spätere Deployment.
-- `IaC`-Stage - nur auf `main`-Branch  
-  Erstellt die notwendige Infrastruktur in Azure mit Hilfe von Bicep (Resource Group und Static Web App) und bereitet Variablen für das Deployment der Applikation vor.
-- `Deploy`-Stage - nur auf `main`-Branch  
-  Führt das Deployment der Applikation auf die zuvor erstellte Azure Static Web App durch und gibt am Ende die URL der Webseite im Log aus.
+The pipeline is configured to execute different steps depending on the trigger:
+- `Build` stage - always executed  
+  Installs and activates the required Node.js version, installs dependencies, runs the build and tests, and creates a build artifact for later deployment.
+- `IaC` stage - only on the `main` branch  
+  Creates the necessary infrastructure in Azure using Bicep (Resource Group and Static Web App) and prepares variables for the application deployment.
+- `Deploy` stage - only on the `main` branch  
+  Deploys the application to the previously created Azure Static Web App and outputs the website URL in the log at the end.
 
-[:back: zurück](#inhaltsverzeichnis)
+[:back: back](#table-of-contents)

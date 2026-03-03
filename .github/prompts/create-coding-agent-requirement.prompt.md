@@ -5,15 +5,15 @@ agent: agent
 model: Claude Sonnet 4.5 (copilot)
 tools: ['microsoft/azure-devops-mcp/*']
 ---
-Erzeuge ein neues Product Backlog Item mit Hilfe des Azure DevOps MCP Servers im Projekt "IntegrationDemo" mit folgenden Details:
+Create a new Product Backlog Item using the Azure DevOps MCP Server in the project "IntegrationDemo" with the following details:
 
-- Titel: "Als Benutzer möchte ich das Aussehen der Bildergalerie anpassen können"
-- Beschreibung:
-  Als Benutzer möchte ich die Möglichkeit haben, zwischen verschiedenen "Themes" für die Bildergalerie zu wählen, um das Erscheinungsbild an meine Vorlieben anzupassen. Die verfügbaren Themes sollten unterschiedliche Farbpaletten und Layouts bieten, damit ich die Galerie individuell gestalten kann.
-- Akzeptanzkriterien:
-  1. Es gibt mindestens drei verschiedene Themes zur Auswahl: "Hell", "Dunkel" und "Farbenfroh".
-  2. Der Benutzer kann das gewünschte Theme über eine Dropdown-Liste im Einstellungsmenü der Bildergalerie auswählen.
-  3. Zusätzlich kann über eine weitere Dropdown-Liste die Spaltenzahl der Galerie ausgewählt werden. Möglich Werte sind zwei, drei, vier oder fünf Spalten.
-  4. Nach der Auswahl eines Themes wird die Bildergalerie sofort mit dem neuen Erscheinungsbild aktualisiert, ohne dass die Seite neu geladen werden muss.
+- Title: "As a user, I want to be able to customize the appearance of the image gallery"
+- Description:
+  As a user, I want the ability to choose between different "themes" for the image gallery, so I can adjust the appearance to my preferences. The available themes should offer different color palettes and layouts, allowing me to personalize the gallery.
+- Acceptance Criteria:
+  1. There are at least three different themes to choose from: "Light", "Dark", and "Colorful".
+  2. The user can select the desired theme via a dropdown list in the image gallery settings menu.
+  3. Additionally, the number of gallery columns can be selected via another dropdown list. Possible values are two, three, four, or five columns.
+  4. After selecting a theme, the image gallery is immediately updated with the new appearance without requiring a page reload.
   
-Nachdem das Product Backlog Item erstellt wurde, gib mir bitte die URL des neuen Items als klickbaren Link zurück.
+After the Product Backlog Item has been created, please return the URL of the new item as a clickable link.

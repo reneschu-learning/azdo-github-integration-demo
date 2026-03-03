@@ -5,8 +5,8 @@ agent: agent
 model: Claude Sonnet 4.5 (copilot)
 tools: ['vscode', 'execute', 'read', 'edit', 'search', 'web', 'context7/*', 'microsoftdocs/mcp/*', 'agent', 'bicep/*', 'azure-mcp/search', 'microsoft/azure-devops-mcp/*', 'github-mcp/*', 'todo']
 ---
-Implementiere bitte alle Tasks für das aktuell mir zugewiesene Product Backlog Item (PBI) im Zustand "Committed" in unserem Backlog in Azure DevOps. Nutze für jeden Task die Schritte, die in [Implement Next Task](./implement-next-task.prompt.md) beschrieben sind.
+Please implement all tasks for the Product Backlog Item (PBI) currently assigned to me in the "Committed" state in our Azure DevOps backlog. For each task, follow the steps described in [Implement Next Task](./implement-next-task.prompt.md).
 
-**ACHTUNG:** Bitte implementiere jeden Task nacheinander und befolge **alle** Anweisungen in [Implement Next Task](./implement-next-task.prompt.md) sorgfältig, um sicherzustellen, dass die Implementierung den Anforderungen entspricht! Schreibe Tests immer passend zu jedem Task und nicht erst am Ende der gesamten Implementierung!
+**IMPORTANT:** Please implement each task one after another and follow **all** instructions in [Implement Next Task](./implement-next-task.prompt.md) carefully, to ensure the implementation meets the requirements! Always write tests for each individual task, not just at the end of the entire implementation!
 
-Nachdem Du alle Tasks implementiert hast, erzeuge einen Pull Request in unserem Git-Repository auf GitHub, um die Änderungen zu mergen. Beschreibe im Pull Request die vorgenommenen Änderungen und verlinke das übergeordnete PBI in Azure DevOps über die Syntax "fixes AB#{PBI-ID}". Dies schließt das PBI automatisch, sobald der Pull Request gemerged wird.
+After you have implemented all tasks, create a pull request in our Git repository on GitHub to merge the changes. In the pull request, describe the changes made and link the parent PBI in Azure DevOps using the syntax "fixes AB#{PBI-ID}". This will automatically close the PBI once the pull request is merged.
