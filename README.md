@@ -199,12 +199,12 @@ To demonstrate build and deployment automation with Azure Pipelines, some prepar
 Once the necessary preparations have been made, the pre-built pipeline in the file [./.pipelines/ci-cd.yaml](./.pipelines/ci-cd.yaml) can be activated. The pipeline can be used in the following ways:
 
 1. Manually via the Azure DevOps UI, to demonstrate the process.
-2. As a pull request gate, executed in every pull request to the main branch. To enable this, uncomment/remove the `pr` trigger on line 17 and activate the trigger on lines 20 to 31. The trigger definition would then look as follows:
+2. As a pull request gate, executed in every pull request to the en-US branch. To enable this, uncomment/remove the `pr` trigger on line 17 and activate the trigger on lines 20 to 31. The trigger definition would then look as follows:
    ```yaml
    pr:
      branches:
        include:
-         - main
+         - en-US
      paths:
        exclude:
          - .github/**
@@ -218,12 +218,12 @@ Once the necessary preparations have been made, the pre-built pipeline in the fi
    ![Pipeline as Pull Request Gate](./assets/PullRequestBuild.png)
    ![Build Status in Pull Request](./assets/PullRequestChecks.png)
 
-3. As a CI/CD pipeline, automatically triggered on every merge to the main branch. To enable this, uncomment/remove the trigger on line 1 and activate the trigger on lines 4 to 15. The trigger definition would then look as follows:
+3. As a CI/CD pipeline, automatically triggered on every merge to the en-US branch. To enable this, uncomment/remove the trigger on line 1 and activate the trigger on lines 4 to 15. The trigger definition would then look as follows:
    ```yaml
    trigger:
      branches:
        include:
-         - main
+         - en-US
      paths:
        exclude:
          - .github/**
@@ -241,9 +241,9 @@ Once the necessary preparations have been made, the pre-built pipeline in the fi
 The pipeline is configured to execute different steps depending on the trigger:
 - `Build` stage - always executed  
   Installs and activates the required Node.js version, installs dependencies, runs the build and tests, and creates a build artifact for later deployment.
-- `IaC` stage - only on the `main` branch  
+- `IaC` stage - only on the `en-US` branch  
   Creates the necessary infrastructure in Azure using Bicep (Resource Group and Static Web App) and prepares variables for the application deployment.
-- `Deploy` stage - only on the `main` branch  
+- `Deploy` stage - only on the `en-US` branch  
   Deploys the application to the previously created Azure Static Web App and outputs the website URL in the log at the end.
 
 [:back: back](#table-of-contents)

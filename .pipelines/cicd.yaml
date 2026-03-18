@@ -4,7 +4,7 @@ trigger: none
 # trigger:
 #   branches:
 #     include:
-#       - main
+#       - en-US
 #   paths:
 #     exclude:
 #       - .github/**
@@ -20,7 +20,7 @@ pr: none
 # pr:
 #   branches:
 #     include:
-#       - main
+#       - en-US
 #   paths:
 #     exclude:
 #       - .github/**
@@ -68,7 +68,7 @@ stages:
   
   - stage: IaC
     displayName: IaC Deployment
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/en-US'))
     jobs:
       - job: iac_deploy
         steps:
@@ -95,7 +95,7 @@ stages:
 
   - stage: Deploy
     displayName: Deploy
-    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/en-US'))
     jobs:
       - deployment: app_deploy
         environment: demo
